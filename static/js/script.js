@@ -122,69 +122,81 @@ document.getElementById("dataUploadBtn").addEventListener("click", (e) => {
 });
 
 
+btn_container = document.querySelector(".edit-icon");
 maltarea.addEventListener('mouseover', () => {
-  btn_container = document.querySelector(".edit-icon");
   btn_container.style.visibility = "visible";
-  btn_container.addEventListener('mouseover', () => {
-    btn_container.style.visibility = "visible";
-  });
+});
+
+btn_container.addEventListener('mouseover', () => {
+  btn_container.style.visibility = "visible";
 });
 
 maltarea.addEventListener('mouseout', () => {
-  btn_container = document.querySelector(".edit-icon");
   btn_container.style.visibility = "hidden";
 });
 
-document.getElementById("editButton").addEventListener("click", () => {
-  btn_container = document.querySelector(".edit-icon");
-  editBtn = document.querySelector(".edit-icon > #editButton");
-  btn_container.removeChild(editBtn);
 
-  checkBtn = document.createElement("button");
-  checkBtn.setAttribute('type', 'button');
-  checkBtn.setAttribute('id', 'checkButton');
-  checkBtn.innerHTML = `<i class="bi bi-check-lg"></i>`;
+const editBtn = document.getElementById("editButton");
+const checkBtn = document.getElementById("checkButton");
 
-  btn_container.appendChild(checkBtn);
-
-  maltarea.addEventListener("focusout", () => {
-    maltarea.setAttribute('readonly', true);
-    btn_container.removeChild(checkBtn);
-    btn_container.appendChild(editBtn);
-  });
-
-  checkBtn.addEventListener("click", () => {
-    maltarea.setAttribute('readonly', true);
-    btn_container.removeChild(checkBtn);
-    btn_container.appendChild(editBtn);
-    edit = maltarea.value;
-    formData = new FormData();
-    formData.append("pk", current);
-    formData.append("edit", edit);
-    fetch(editURL, {
-      method: "POST",
-      body: formData,
-      headers: {
-        "X-CSRFToken": csrf_token,
-      },
+checkBtn.addEventListener("click", () => {
+  checkBtn.style.display = 'none';
+  editBtn.style.display = 'block';    
+  edit = maltarea.value;
+  console.log(edit);
+  formData = new FormData();
+  formData.append("pk", current);
+  formData.append("edit", edit);
+  console.log(formData);
+  fetch(editURL, {
+    method: "POST",
+    body: formData,
+    headers: {
+      "X-CSRFToken": csrf_token,
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
     })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("Success:", data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  });
+    .then((data) => {
+      console.log("Success:", data);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+  maltarea.setAttribute('readonly', true);
+});
 
+
+editBtn.addEventListener("click", () => {
+  console.log("button triggered");
+  editBtn.style.display = 'none';
+  checkBtn.style.display = 'block';
   maltarea.removeAttribute('readonly');
   maltarea.focus();
 });
+
+const edit_container = document.querySelector(".box1-container > div");
+var fo = true;
+edit_container.addEventListener("mouseover", () => {
+  fo = false;
+});
+
+edit_container.addEventListener("mouseout", () => {
+  fo = true;
+});
+
+maltarea.addEventListener("focus", () => {
+  if (fo == true){
+  maltarea.setAttribute('readonly', true);
+  checkBtn.style.display = 'none';
+  editBtn.style.display = 'block';}
+});
+
+
 
 
 const alertPlaceholder = document.getElementById('alertPlaceholder');

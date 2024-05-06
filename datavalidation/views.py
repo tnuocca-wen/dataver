@@ -11,11 +11,15 @@ def index(request):
 def textpair(request):
     if request.method == 'POST':
         filtered_data = Dataset.objects.filter(again=True)
+        filtered_pks = filtered_data.values_list('pk', flat=True)
+        if 'first_count' not in request.session:
+            request.session['first_count'] = 0
         if 'ver' not in request.session:
-            print("here")
             request.session['ver'] = []
         ver = request.session['ver']
-        if filtered_data.exists():
+        pks_to_exclude = set(filtered_pks) & set(ver)
+        fin_data = filtered_data.exclude(pk__in = pks_to_exclude)
+        if fin_data.exists():
             pk = None
             random_object = filtered_data.order_by('?').first()
             for pk in ver:
@@ -36,9 +40,6 @@ def yon(request):
         ver.append(pk)
 
         request.session['ver'] = ver
-        
-        print(request.session['ver'])
-        print(pk)
 
         dataset_object = Dataset.objects.get(pk=pk)
         
@@ -58,6 +59,7 @@ def yon(request):
 @login_required
 def edittext(request):
     if request.method == 'POST':
+        print("entered edit")
         pk = request.POST.get('pk')
         text = request.POST.get('edit')
         object = Dataset.objects.get(pk=pk)

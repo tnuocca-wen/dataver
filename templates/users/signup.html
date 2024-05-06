@@ -65,7 +65,7 @@
     {% endif %}
     <div class="lcontainer">
       <div class="lwrapper">
-        <div class="title"><span>Sign up</span></div>
+        <div class="title"><span class="welcome">Sign up</span></div>
         <form method="post" action="{% url 'users:signup' %}">
           {% csrf_token %}
           <div class="lrow">

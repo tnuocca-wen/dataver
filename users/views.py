@@ -1,16 +1,20 @@
 from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from django.contrib.sessions.backends.db import SessionStore
 from .forms import CustomUserCreationForm
 from django.contrib.auth.models import User
 from django.contrib import messages
 from pytz import timezone
 from datetime import datetime
+from django.http import QueryDict
+import jwt
 
 
 # Create your views here.
 def login_view(request):
     if request.user.is_authenticated:
-        return redirect('app:index')
+        return redirect('datavalidation:index')
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -36,6 +40,7 @@ def login_view(request):
 
 def signup_view(request):
     if request.method == 'POST':
+        print(request.session)
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
@@ -58,3 +63,45 @@ def signup_view(request):
 def logout_view(request):
     logout(request)
     return redirect('users:login')
+
+def gauth(request):
+    session_store = SessionStore()
+    # print(request.body.decode('utf-8'))
+    request.session = session_store
+    if request.method == 'POST':
+        jwt = request.POST.get('jwt')
+        decoded = decode_jwt(jwt)
+        username = decoded['sub']
+        type(username)
+        password = username+"googleuser"+decoded['sub']
+        fname = decoded['given_name']
+        lname = decoded['family_name']
+        if not User.objects.filter(username=username).exists():
+            gsignup(request, username, password, fname, lname)
+        else:
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('datavalidation:index')
+        # return JsonResponse({"status": "success"})
+
+def gsignup(request, username, password, fname, lname):
+    new = QueryDict('', mutable=True)
+    new.appendlist('username', username)
+    new.appendlist('first_name', fname)
+    new.appendlist('last_name', lname)
+    new.appendlist('password1', password)
+    new.appendlist('password2', password)
+    form = CustomUserCreationForm(new)
+    if form.is_valid():
+        user = form.save()
+    user = authenticate(username=username, password=password)
+    login(request, user)
+    return redirect("datavalidation:index")
+
+def decode_jwt(token):
+    try:
+        decoded_token = jwt.decode(token, options={"verify_signature": False})
+        return decoded_token
+    except jwt.InvalidTokenError as e:
+        print("Error decoding JWT token:", e)
+        return None

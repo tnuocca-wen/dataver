@@ -131,6 +131,15 @@ hr {
   height: 100%;
 }
 
+.edit-icon > #checkButton {
+  display: none;
+}
+
+.edit-icon > #editButton {
+  display: block;
+}
+
+
 #alertPlaceholder {
   position: absolute;
   top: 10%;
