@@ -8,7 +8,7 @@ class Dataset(models.Model):
     good = models.IntegerField(default=0)
     bad = models.IntegerField(default=0)
     consencus_choices = {"g" : "Good", "b" : "Bad", "d" : "Draw"}
-    consensus = models.CharField(max_length=1, choices=consencus_choices)
+    consensus = models.CharField(max_length=1, choices=consencus_choices, default='d')
     again = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):

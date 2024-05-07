@@ -55,7 +55,6 @@ def exportdata(request, file_name):
                 csvwriter = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
 
                 for instance in data:
-                    print(instance['pk'])
                     mal = instance['malayalam']
                     eng = instance['english']
                     print(instance['consensus'])
