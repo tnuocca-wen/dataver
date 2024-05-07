@@ -30,6 +30,8 @@ function fetchTextPairs(){
 
 document.getElementById("btn1").addEventListener("click", (e) => {
   e.preventDefault();
+  document.getElementById("btn1").disabled = true;
+  document.getElementById("btn2").disabled = true;
   if (current){
   formData = new FormData();
   formData.append('pk', current);
@@ -43,8 +45,9 @@ document.getElementById("btn1").addEventListener("click", (e) => {
   })
   .then(response => response.json())
   .then(data => {
-    console.log(data);
     fetchTextPairs();
+    document.getElementById("btn1").disabled = false;
+    document.getElementById("btn2").disabled = false;
   })
   .catch(error => {
     // Handle any errors
@@ -59,6 +62,8 @@ else{
 
 document.getElementById("btn2").addEventListener("click", (e) => {
   e.preventDefault();
+  document.getElementById("btn1").disabled = true;
+  document.getElementById("btn2").disabled = true;
   if (current){
   formData = new FormData();
   formData.append('pk', current);
@@ -72,8 +77,9 @@ document.getElementById("btn2").addEventListener("click", (e) => {
   })
   .then(response => response.json())
   .then(data => {
-    console.log(data);
     fetchTextPairs();
+    document.getElementById("btn1").disabled = false;
+    document.getElementById("btn2").disabled = false;
   })
   .catch(error => {
     // Handle any errors
