@@ -57,7 +57,7 @@ def exportdata(request, file_name):
                 for instance in data:
                     mal = instance['malayalam']
                     eng = instance['english']
-                    cons = '1' if instance['consensus'] else '0'
+                    cons = '1' if instance['consensus'] == 'g' else '0'
                     csvwriter.writerows([[mal, eng, cons]])
 
             with open(file_path, 'rb') as f:
