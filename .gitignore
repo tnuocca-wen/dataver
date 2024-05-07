@@ -18,4 +18,4 @@ build/
 tests/report/
 tests/screenshots/
 /*.sqlite3
-/data/files/
+/data/files
