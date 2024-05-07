@@ -131,11 +131,11 @@ hr {
   height: 100%;
 }
 
-.edit-icon > #checkButton {
+#malcheckButton, #engcheckButton {
   display: none;
 }
 
-.edit-icon > #editButton {
+#maleditButton, #engeditButton {
   display: block;
 }
 

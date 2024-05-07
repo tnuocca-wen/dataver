@@ -190,29 +190,38 @@
         {% csrf_token %}
         <div class="parent-container">
           <div class="box1-container">
-            <div>
+            <div id="maltextdiv">
             <textarea
               id="textarea1"
               readonly
               name="text"
               placeholder="The malayalam sentence will be displayed here...."
             ></textarea>
-            <div class="edit-icon">
-                <button type="button" id="editButton">
+            <div class="edit-icon" id="btn-con1">
+                <button type="button" id="maleditButton">
                   <i class="bi bi-pencil-square"></i>
                 </button>
-                <button type="button" id="checkButton">
+                <button type="button" id="malcheckButton">
                   <i class="bi bi-check-lg"></i>
                 </button>
             </div>
         </div>
-            <div>
+            <div id="engtextdiv">
             <textarea
             id="textarea2"
             readonly
             name="text"
             placeholder="The english sentence will be displayed here...."
-          ></textarea></div>
+          ></textarea>
+          <div class="edit-icon" id="btn-con2">
+            <button type="button" id="engeditButton">
+              <i class="bi bi-pencil-square"></i>
+            </button>
+            <button type="button" id="engcheckButton">
+              <i class="bi bi-check-lg"></i>
+            </button>
+          </div>
+      </div>
           </div>
           <div class="box2-container" id="container2">
                 <div class="actionbtn row justify-content-between align-items-center">

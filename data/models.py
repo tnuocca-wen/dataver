@@ -7,15 +7,21 @@ class Dataset(models.Model):
     english = models.TextField()
     good = models.IntegerField(default=0)
     bad = models.IntegerField(default=0)
-    consensus = models.BooleanField()
+    consencus_choices = {"g" : "Good", "b" : "Bad", "d" : "Draw"}
+    consensus = models.CharField(max_length=1, choices=consencus_choices)
     again = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
         # Calculate consensus based on good and bad counts
-        self.consensus = self.good > self.bad
+        if self.good > self.bad:
+            self.consensus = "g"
+        elif self.good == self.bad:
+            self.consensus = "d"
+        else:
+            self.consensus = "b"
         
         # Set again to False if good or bad counts exceed 10
-        if self.good >= 2 or self.bad >= 2:
+        if self.good >= 7 or self.bad >= 7:
             self.again = False
         else:
             self.again = True

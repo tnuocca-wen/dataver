@@ -1,6 +1,7 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from django.db.models import Q
 import csv, os
 from data.models import Dataset
 from django.http import HttpResponse
@@ -44,7 +45,8 @@ def adddata(request):
 @csrf_exempt
 def exportdata(request, file_name):
         if request.user.is_authenticated and request.user.username == 'daadmin':
-            filtered_data = Dataset.objects.filter(again=False).exclude(consensus=None)
+            filtered_data = Dataset.objects.filter(Q(consensus='g') | Q(consensus="b"))
+            print(len(filtered_data))
             data = filtered_data.values('malayalam', 'english', 'consensus')
 
             file_path = 'data/files/export/data.csv'

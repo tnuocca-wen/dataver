@@ -17,14 +17,13 @@ def textpair(request):
         if 'ver' not in request.session:
             request.session['ver'] = []
         ver = request.session['ver']
+        print(ver)
         pks_to_exclude = set(filtered_pks) & set(ver)
+        print(pks_to_exclude)
         fin_data = filtered_data.exclude(pk__in = pks_to_exclude)
+        print(len(fin_data))
         if fin_data.exists():
-            pk = None
-            random_object = filtered_data.order_by('?').first()
-            for pk in ver:
-                random_object = filtered_data.order_by('?').first()
-                pk = random_object.pk
+            random_object = fin_data.order_by('?').first()
             return JsonResponse({'pk':random_object.pk, 'malayalam': random_object.malayalam, 'english': random_object.english})
         else:
             return JsonResponse({'message': 'Now more data available', 'status': 100})
@@ -37,7 +36,7 @@ def yon(request):
         rating = request.POST.get('rating')
 
         ver = request.session['ver']
-        ver.append(pk)
+        ver.append(eval(pk))
 
         request.session['ver'] = ver
 
@@ -62,7 +61,12 @@ def edittext(request):
         print("entered edit")
         pk = request.POST.get('pk')
         text = request.POST.get('edit')
+        eom = request.POST.get('eom')
+        print(text)
         object = Dataset.objects.get(pk=pk)
-        object.malayalam = text
+        if eom == '0':
+            object.malayalam = text
+        else:
+            object.english = text
         object.save()
         return JsonResponse({'status': "success"})
