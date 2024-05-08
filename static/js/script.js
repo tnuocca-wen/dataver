@@ -206,7 +206,8 @@ maltarea.addEventListener("focusout", () => {
   if (mfo == true){
   maltarea.setAttribute('readonly', true);
   mcheckBtn.style.display = 'none';
-  meditBtn.style.display = 'block';}
+  meditBtn.style.display = 'block';
+  maltarea.style.cursor = 'default';}
 });
 
 
@@ -223,13 +224,15 @@ engtarea.addEventListener("focusout", () => {
   if (efo == true){
   engtarea.setAttribute('readonly', true);
   echeckBtn.style.display = 'none';
-  eeditBtn.style.display = 'block';}
+  eeditBtn.style.display = 'block';
+  engtarea.style.cursor = 'default';}
 });
 
 
 function cBtnevents(btn1, btn2, tarea, eom){
   btn1.style.display = 'none';
-  btn2.style.display = 'block';    
+  btn2.style.display = 'block';
+  tarea.style.cursor = 'default'; 
   edit = tarea.value;
   console.log(edit);
   formData = new FormData();
@@ -260,9 +263,9 @@ function cBtnevents(btn1, btn2, tarea, eom){
 }
 
 function eBtnevents(btn1, btn2, tarea){
-  console.log("button triggered");
   btn1.style.display = 'none';
   btn2.style.display = 'block';
+  tarea.style.cursor = 'auto';
   tarea.removeAttribute('readonly');
   tarea.focus();
 }
