@@ -75,7 +75,7 @@
             id="g_id_onload"
             data-client_id="129500516432-6rbd9893voa71k8dgpbrqo3hfi02rnhv.apps.googleusercontent.com"
             data-context="use"
-            data-ux_mode="popups"
+            data-ux_mode="popup"
             data-login_uri="{% url 'users:gauth' %}"
             data-nonce=""
             data-itp_support="true"
@@ -96,7 +96,6 @@
   </body>
   <script src="{% static 'js/gjs.js' %}"></script>
   <script>
-    const authURL = "{% url 'users:gauth' %}";
     const csrf_token = document.getElementsByName("csrfmiddlewaretoken")[0]
       .value;
   </script>

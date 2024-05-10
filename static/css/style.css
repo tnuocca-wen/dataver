@@ -224,6 +224,10 @@ button[type="submit"]#btn2:focus {
 
 
 @media (max-width: 950px) {
+  .box1-container {
+    max-width: 95%;
+  }
+
   .box1-container textarea {
     font-size: 3vw;
   }
@@ -233,6 +237,7 @@ button[type="submit"]#btn2:focus {
   }
 }
 @media (max-width: 499px) {
+
   .logout {
     font-size: x-small;
   }

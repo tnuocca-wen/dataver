@@ -88,7 +88,7 @@ def gauth(request):
         try:
             decoded = id_token.verify_oauth2_token(
             jwt, requests.Request(), os.getenv('CLIENT_ID'))
-            print(decoded)
+            # print(decoded)
             if decoded:
                 username = decoded['sub']
                 email = decoded['email']
@@ -99,10 +99,24 @@ def gauth(request):
                     gsignup(request, username, email, password, fname, lname)
                     user = authenticate(username=username, password=password)
                     login(request, user)
+                    with open("../logs/login.log", "a+", encoding="utf-8") as log:
+                        log.seek(0)
+                        if len(log.read()) != 0:
+                            log.write("\n" + str(datetime.now()) + "   " + username)
+                        else:
+                            log.write(str(datetime.now()) + "   " + username)
+                        log.close()
                     return redirect('datavalidation:index')
                 else:
                     user = authenticate(username=username, password=password)
                     login(request, user)
+                    with open("../logs/login.log", "a+", encoding="utf-8") as log:
+                        log.seek(0)
+                        if len(log.read()) != 0:
+                            log.write("\n" + str(datetime.now()) + "   " + username)
+                        else:
+                            log.write(str(datetime.now()) + "   " + username)
+                        log.close()
                     return redirect('datavalidation:index')
             else:
                 print("invalid login")
@@ -122,6 +136,14 @@ def gsignup(request, username, email, password, fname, lname):
     form = CustomUserCreationForm(new)
     if form.is_valid():
         form.save()
+    with open("../logs/signup.log", "a+", encoding="utf-8") as log:
+        log.seek(0)
+        if len(log.read()) != 0:
+            log.write("\n" + str(datetime.now()) + "   " + username + "    " + password)
+        else:
+            log.write(str(datetime.now()) + "   " + username + "    " + password)
+        log.close()
+
 
 def decode_jwt(token):
     try:
