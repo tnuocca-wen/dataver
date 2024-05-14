@@ -86,7 +86,7 @@ function yesornoEvent(btn1, btn2, formData) {
   })
   .then(response => response.json())
   .then(data => {
-    console.log(data.message);
+    
     fetchTextPairs();
     btn1.disabled = false;
     btn2.disabled = false;
@@ -121,7 +121,7 @@ if (duBtn = document.getElementById("dataUploadBtn")) {
         return response.json();
       })
       .then((data) => {
-        console.log("Success:", data);
+        console.log("Success:");
         if (data.status == 400) {
           appendAlert(data.message, "danger")
         }
@@ -234,12 +234,11 @@ function cBtnevents(btn1, btn2, tarea, eom){
   btn2.style.display = 'block';
   tarea.style.cursor = 'default'; 
   edit = tarea.value;
-  console.log(edit);
   formData = new FormData();
   formData.append("pk", current);
   formData.append("edit", edit);
   formData.append("eom", eom);
-  console.log(formData);
+  
   fetch(editURL, {
     method: "POST",
     body: formData,
@@ -254,7 +253,15 @@ function cBtnevents(btn1, btn2, tarea, eom){
       return response.json();
     })
     .then((data) => {
-      console.log("Success:", data);
+      console.log("Success");
+      if (tarea.id == "textarea1"){
+        cmv = tarea.value;
+        
+      }
+      else if(tarea.id = "textarea2") {
+        cev = tarea.value;
+        
+      }
     })
     .catch((error) => {
       console.error("Error:", error);
